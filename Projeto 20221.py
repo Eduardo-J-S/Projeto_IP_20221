@@ -8,14 +8,14 @@ co3 = "#38576b"  # valor / value
 co4 = "#403d3d"   # letra / letters
 
 
-global voltar
 voltar = False
 
 def voltar_tela_1():
-    tela_login()
+    global voltar
     voltar = True
+    segundaTela.destroy()
     if voltar:
-        segundaTela.destroy()
+        tela_login()
         
 
 def nova_tela_login():
