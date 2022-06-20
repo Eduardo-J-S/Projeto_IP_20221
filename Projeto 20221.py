@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 # --------------------------------------------- cores --------------------------------------------
 co0 = "#121010"  # Preta / black
@@ -18,10 +19,38 @@ def voltar_tela_1():
         tela_login()
         
 
+def nova_tela_3():
+    global segundaTela
+    segundaTela.destroy()
+
+    terceiraTela = Tk()
+    terceiraTela.title('Banco de dados')
+    terceiraTela.geometry('500x500')
+    terceiraTela.configure(bg=co1)
+    terceiraTela.resizable(width=FALSE, height=FALSE)
+    
+    terceiraTela.mainloop()
+
+
+
+def login_tela_3():
+    nome = entre_nome.get()
+    senha = entre_senha.get()
+    if nome == 'adm' and senha == 'adm':
+        messagebox.showinfo('Login', 'Seja bem vindo')
+        nova_tela_3()
+    else:
+        nome_senha_erro['text'] = 'Usuário ou senha incorretos'
+        
+
 def nova_tela_login():
+    global entre_nome
+    global entre_senha
+    global nome_senha_erro
     global segundaTela
     global primeiraTela
     global botao_voltar
+
     primeiraTela.destroy()
     segundaTela = Tk()
     segundaTela.title('Login')
@@ -45,9 +74,11 @@ def nova_tela_login():
     botao_voltar.place(x=30, y=30)
 
     # -------- botão segunda tela entrar banco de dados ------------------------------
-    login_segunda_tela = Button(segundaTela, text='Login', font=('Arial 12 bold'), width=15, height=1,
+    login_segunda_tela = Button(segundaTela, text='Login', command=login_tela_3,  font=('Arial 12 bold'), width=15, height=1,
                         overrelief='ridge', bg=co3, fg=co1)
     login_segunda_tela.place(x=100, y=325)
+    nome_senha_erro = Label(segundaTela, text='', font=('Arial 8'), bg=co1, fg=co0)
+    nome_senha_erro.place(x=100, y=303)
 
     segundaTela.mainloop()
     
