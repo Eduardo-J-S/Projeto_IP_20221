@@ -44,6 +44,11 @@ def nova_tela_login():
                         overrelief='ridge', bg=co1, fg=co0)
     botao_voltar.place(x=30, y=30)
 
+    # -------- botão segunda tela entrar banco de dados ------------------------------
+    login_segunda_tela = Button(segundaTela, text='Login', font=('Arial 12 bold'), width=15, height=1,
+                        overrelief='ridge', bg=co3, fg=co1)
+    login_segunda_tela.place(x=100, y=325)
+
     segundaTela.mainloop()
     
 
