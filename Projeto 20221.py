@@ -2,11 +2,13 @@ from tkinter import *
 from tkinter import messagebox
 
 # --------------------------------------------- cores --------------------------------------------
-co0 = "#121010"  # Preta / black
-co1 = "#feffff"  # branca / white
-co2 = "#3fb5a3"  # verde / green
-co3 = "#38576b"  # valor / value
-co4 = "#403d3d"   # letra / letters
+co0 = '#121010'  # Preta / black
+co1 = '#feffff'  # branca / white
+co2 = '#3fb5a3'  # verde / green
+co3 = '#38576b'  # valor / value
+co4 = '#403d3d'   # letra / letters
+co5 = '#e9edf5' # sky blue
+co6 = '#ef5350' #vermelho
 
 
 voltar = False
@@ -26,9 +28,42 @@ def nova_tela_3():
     terceiraTela = Tk()
     terceiraTela.title('Banco de dados')
     terceiraTela.geometry('500x500')
-    terceiraTela.configure(bg=co1)
+    terceiraTela.configure(bg=co5)
     terceiraTela.resizable(width=FALSE, height=FALSE)
+
     
+    # criando frames -------------------------------------
+    primeiro_frame = Frame(terceiraTela, width=500, height=65, bg=co3, relief='flat')
+    primeiro_frame.grid(row=0, column=0)
+
+    segundo_frame = Frame(terceiraTela, width=500, height=435, bg=co1, relief='flat')
+    segundo_frame.grid(row=1, column=0)
+
+
+    # criando labels e entrys--------------------------------
+    label_inserir = Label(primeiro_frame, text='Inserir Produtos', font=('Arialblack 20 bold'), bg=co3, fg=co1)
+    label_inserir.place(x=140, y=12)
+
+    label_descricao = Label(segundo_frame, text='Produto: *', font=('Yvi 15 bold'), bg=co1, fg=co4)
+    label_descricao.place(x=15, y=55)
+    entre_descricao = Entry(segundo_frame, width=50, relief='solid')
+    entre_descricao.place(x=20, y=85)
+
+    label_codigo = Label(segundo_frame, text='Código: *', font=('Yvi 15 bold'), bg=co1, fg=co4)
+    label_codigo.place(x=15, y=130)
+    entre_codigo = Entry(segundo_frame, width=50, relief='solid')
+    entre_codigo.place(x=20, y=160)
+
+    label_preco =  Label(segundo_frame, text='Preço *', font=('Yvi 15 bold'), bg=co1, fg=co4)
+    label_preco.place(x=20, y=195)
+    entre_preco = Entry(segundo_frame, width=50, relief='solid')
+    entre_preco.place(x=20, y=224)
+
+    #botao inserir -----------------------------------
+    botao_inserir = Button(segundo_frame, text='Inserir', width=10, height=1, font=('Arial 10 bold'), bg=co6, fg=co1, relief='raised',
+                    overrelief='ridge')
+    botao_inserir.place(x=20, y=300)
+
     terceiraTela.mainloop()
 
 
