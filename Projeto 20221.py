@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+import mysql.connector
 
 # --------------------------------------------- cores --------------------------------------------
 co0 = '#121010'  # Preta / black
@@ -13,6 +14,36 @@ co6 = '#ef5350' #vermelho
 
 voltar = False
 
+def inserir():
+    produto = entre_descricao.get()
+    codigo = entre_codigo.get()
+    preco = entre_preco.get()
+
+    if produto == '' or codigo == '' or preco =='':
+        messagebox.showerror('Erro', 'Campos não estão preenchidos')
+    else:
+        banco = mysql.connector.connect(
+        host = 'localhost',
+        user='root',
+        passwd='',
+        database='banco_produtos'
+        )
+
+        cursor = banco.cursor()
+
+        inserindo = 'INSERT INTO produtos (produto, codigo, preco) VALUES (%s, %s, %s)'
+        dados = (str(produto), str(codigo), str(preco))
+        cursor.execute(inserindo, dados)
+        banco.commit()
+
+        print(f'Produto: {produto}')
+        print(f'Código: {codigo}')
+        print(f'Preço: {preco}')
+
+        entre_descricao.delete(0, 'end')
+        entre_codigo.delete(0, 'end')
+        entre_preco.delete(0, 'end')
+
 def voltar_tela_1():
     global voltar
     voltar = True
@@ -23,6 +54,9 @@ def voltar_tela_1():
 
 def nova_tela_3():
     global segundaTela
+    global entre_descricao
+    global entre_codigo
+    global entre_preco
     segundaTela.destroy()
 
     terceiraTela = Tk()
@@ -60,7 +94,7 @@ def nova_tela_3():
     entre_preco.place(x=20, y=224)
 
     #botao inserir -----------------------------------
-    botao_inserir = Button(segundo_frame, text='Inserir', width=10, height=1, font=('Arial 10 bold'), bg=co6, fg=co1, relief='raised',
+    botao_inserir = Button(segundo_frame, text='Inserir', command=inserir, width=10, height=1, font=('Arial 10 bold'), bg=co6, fg=co1, relief='raised',
                     overrelief='ridge')
     botao_inserir.place(x=20, y=300)
 
