@@ -4,7 +4,7 @@ def criar_banco():
     banco = mysql.connector.connect(
         host = 'localhost', #A hopedagem do seu MySQL
         user='root', #O usuario do seu MySQL
-        passwd='', #A senha do seu MySQL (padrao e sem senha)
+        passwd='', #A senha do seu MySQL (padrao é sem senha)
     );
 
     cursor = banco.cursor()
@@ -17,7 +17,7 @@ def criar_tabela():
     banco = mysql.connector.connect(
         host = 'localhost', #A hopedagem do seu MySQL
         user='root', #O usuario do seu MySQL
-        passwd='', #A senha do seu MySQL (padrao e sem senha)
+        passwd='', #A senha do seu MySQL (padrao é sem senha)
         database='banco_produtos' # Com que banco de dados a tabela conectar
     );
 

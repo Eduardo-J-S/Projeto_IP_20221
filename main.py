@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import mysql.connector
 from banco import criarBanco
+from tkinter import ttk
 
 # --------------------------------------------- cores --------------------------------------------
 co0 = '#121010'  # Preta / black
@@ -11,9 +12,60 @@ co3 = '#38576b'  # valor / value
 co4 = '#403d3d'   # letra / letters
 co5 = '#e9edf5' # sky blue
 co6 = '#ef5350' #vermelho
+co7 = '#191970' #MidnightBlue
 
 
 voltar = False
+
+def nova_tela_4():
+    terceiraTela.destroy()
+
+    quartaTela = Tk()
+    quartaTela.title('Banco de produtos')
+    quartaTela.geometry('500x500+420+100')
+    quartaTela.configure(bg=co5)
+    quartaTela.resizable(width=FALSE, height=FALSE)
+    
+    # lista para topo da página. cabeçalho
+    lista = ['id', 'produtos', 'código', 'preço']
+
+    topo = ttk.Treeview(quartaTela, selectmode='extended',columns=lista, show='headings')
+
+    #rolagem vertical horizontal -----------------------------
+    rolagem_vert = ttk.Scrollbar(quartaTela, orient='vertical', command=topo.yview)
+    rolagem_vert.grid(column=1, row=0, sticky='ns')
+    rolagem_hori = ttk.Scrollbar(quartaTela, orient='horizontal', command=topo.yview)
+    rolagem_hori.grid(column=0, row=1, sticky='ew')
+    topo.configure(yscrollcommand=rolagem_vert.set, xscrollcommand=rolagem_hori.set)
+    topo.grid(column=0, row=0)
+
+    quartaTela.grid_rowconfigure(0, weight=12)
+
+    posicao_cabecalho = ['nw','center','center','center']
+    tamanho_cabecalho = [50, 100, 100, 100]
+
+    for coluna in lista:
+        topo.heading(coluna, text=lista.title(), anchor=CENTER)
+        topo.column(coluna, width=tamanho_cabecalho[coluna], anchor=posicao_cabecalho[coluna])
+    
+    banco = mysql.connector.connect(
+        host = 'localhost',
+        user='root',
+        passwd='',
+        database='banco_produtos'
+        )
+
+    cursor = banco.cursor()
+    mostrar = 'SELECT * FROM produtos'
+    cursor.execute(mostrar)
+    dados = cursor.fetchall()
+    print(dados)
+
+    for item in dados:
+        topo.insert('','end',values=item)
+
+    quartaTela.mainloop()
+
 
 def inserir():
     produto = entre_descricao.get()
@@ -29,7 +81,7 @@ def inserir():
         banco = mysql.connector.connect(
         host = 'localhost', #A hopedagem do seu MySQL
         user='root', #O usuario do seu MySQL
-        passwd='', #A senha do seu MySQL (padrao e sem senha)
+        passwd='', #A senha do seu MySQL (padrao é sem senha)
         database='banco_produtos' # Com que banco de dados a tabela conectar
         )
 
@@ -57,6 +109,7 @@ def voltar_tela_1():
         
 
 def nova_tela_3():
+    global terceiraTela
     global segundaTela
     global entre_descricao
     global entre_codigo
@@ -101,6 +154,10 @@ def nova_tela_3():
     botao_inserir = Button(segundo_frame, text='Inserir', command=inserir, width=10, height=1, font=('Arial 10 bold'), bg=co6, fg=co1, relief='raised',
                     overrelief='ridge')
     botao_inserir.place(x=20, y=300)
+    # botão visualizar tabela ---------------------------------------------------------
+    botao_ir_tabela = Button(segundo_frame, command=nova_tela_4, text='Visualizar tabela', width=15, height=1, font=('Arial 10 bold'), bg=co7, fg=co1, relief='raised',
+                    overrelief='ridge')
+    botao_ir_tabela.place(x=200, y=300)
 
     terceiraTela.mainloop()
 
