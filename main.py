@@ -97,6 +97,7 @@ def inserir():
     if produto == '' or codigo == '' or preco =='':
         messagebox.showerror('Erro', 'Campos não estão preenchidos')
     else:
+        messagebox.showinfo('Sucesso', 'Produto adcionado com sucesso')
         banco = mysql.connector.connect(
         host = 'localhost', #A hopedagem do seu MySQL
         user='root', #O usuario do seu MySQL
