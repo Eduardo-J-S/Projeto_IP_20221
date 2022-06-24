@@ -25,28 +25,38 @@ def nova_tela_4():
     quartaTela.geometry('500x500+420+100')
     quartaTela.configure(bg=co5)
     quartaTela.resizable(width=FALSE, height=FALSE)
+    #criando frame --------------------------------
+    tela_4_frame = Frame(quartaTela, width=450, height=450, bg=co3, relief='flat')
+    tela_4_frame.grid(row=0, column=0)
+
+    # lista dos produtos da tabela
+    produto = [[1, 'notebook', '111232', '1.600']]
     
     # lista para topo da página. cabeçalho
     lista = ['id', 'produtos', 'código', 'preço']
 
-    topo = ttk.Treeview(quartaTela, selectmode='extended',columns=lista, show='headings')
+    topo = ttk.Treeview(tela_4_frame, selectmode='extended',columns=lista, show='headings')
 
     #rolagem vertical horizontal -----------------------------
-    rolagem_vert = ttk.Scrollbar(quartaTela, orient='vertical', command=topo.yview)
+    rolagem_vert = ttk.Scrollbar(tela_4_frame, orient='vertical', command=topo.yview)
     rolagem_vert.grid(column=1, row=0, sticky='ns')
-    rolagem_hori = ttk.Scrollbar(quartaTela, orient='horizontal', command=topo.yview)
+
+    rolagem_hori = ttk.Scrollbar(tela_4_frame, orient='horizontal', command=topo.yview)
     rolagem_hori.grid(column=0, row=1, sticky='ew')
+
     topo.configure(yscrollcommand=rolagem_vert.set, xscrollcommand=rolagem_hori.set)
     topo.grid(column=0, row=0)
 
-    quartaTela.grid_rowconfigure(0, weight=12)
+    tela_4_frame.grid_rowconfigure(0, weight=12)
 
-    posicao_cabecalho = ['nw','center','center','center']
-    tamanho_cabecalho = [50, 100, 100, 100]
+    posicao_cabecalho = ['center','center','center','center']
+    tamanho_cabecalho = [50, 180, 150, 100]
+    c=0
 
     for coluna in lista:
-        topo.heading(coluna, text=lista.title(), anchor=CENTER)
-        topo.column(coluna, width=tamanho_cabecalho[coluna], anchor=posicao_cabecalho[coluna])
+        topo.heading(coluna, text=coluna.title(), anchor=CENTER)
+        topo.column(coluna, width=tamanho_cabecalho[c], anchor=posicao_cabecalho[c])
+        c+=1
     
     banco = mysql.connector.connect(
         host = 'localhost',
@@ -61,7 +71,7 @@ def nova_tela_4():
     dados = cursor.fetchall()
     print(dados)
 
-    for item in dados:
+    for item in produto:
         topo.insert('','end',values=item)
 
     quartaTela.mainloop()
