@@ -17,7 +17,22 @@ co7 = '#191970' #MidnightBlue
 
 voltar = False
 
+def voltar_tela_1():
+    #global voltar
+    voltar = True
+    segundaTela.destroy()
+    if voltar:
+        tela_login()
+
+def voltar_tela_3():
+    voltar = True
+    quartaTela.destroy()
+    if voltar:
+        tela_login()
+
+
 def nova_tela_4():
+    global quartaTela
     terceiraTela.destroy()
 
     quartaTela = Tk()
@@ -28,12 +43,15 @@ def nova_tela_4():
     #criando frame --------------------------------
     tela_4_frame = Frame(quartaTela, width=450, height=450, bg=co3, relief='flat')
     tela_4_frame.grid(row=0, column=0)
+    
+    tela_4_frame_2 = Frame(quartaTela, width=500, height=300, bg=co2, relief='flat')
+    tela_4_frame_2.grid(row=1, column=0)
 
     # lista dos produtos da tabela
-    produto = [[1, 'notebook', '111232', '1.600']]
+    produto = criarBanco.visu_info()
     
     # lista para topo da página. cabeçalho
-    lista = ['id', 'produtos', 'código', 'preço']
+    lista = ['ID', 'PRODUTOS', 'CÓDIGO', 'PREÇO']
 
     topo = ttk.Treeview(tela_4_frame, selectmode='extended',columns=lista, show='headings')
 
@@ -54,25 +72,16 @@ def nova_tela_4():
     c=0
 
     for coluna in lista:
-        topo.heading(coluna, text=coluna.title(), anchor=CENTER)
+        topo.heading(coluna, text=coluna.title().upper(), anchor=CENTER)
         topo.column(coluna, width=tamanho_cabecalho[c], anchor=posicao_cabecalho[c])
         c+=1
     
-    banco = mysql.connector.connect(
-        host = 'localhost',
-        user='root',
-        passwd='',
-        database='banco_produtos'
-        )
-
-    cursor = banco.cursor()
-    mostrar = 'SELECT * FROM produtos'
-    cursor.execute(mostrar)
-    dados = cursor.fetchall()
-    print(dados)
-
     for item in produto:
         topo.insert('','end',values=item)
+
+    #------------------- criando botao voltar inicio ---------------------------------------------------
+    botao_voltar_tela_3 = Button(tela_4_frame_2, command=voltar_tela_3, text='Início', font=('Arial 12 bold'), width=5, height=1, overrelief='ridge', bg=co0, fg=co1)
+    botao_voltar_tela_3.place(x=385, y=215)
 
     quartaTela.mainloop()
 
@@ -110,12 +119,6 @@ def inserir():
         entre_codigo.delete(0, 'end')
         entre_preco.delete(0, 'end')
 
-def voltar_tela_1():
-    global voltar
-    voltar = True
-    segundaTela.destroy()
-    if voltar:
-        tela_login()
         
 
 def nova_tela_3():
@@ -165,7 +168,7 @@ def nova_tela_3():
                     overrelief='ridge')
     botao_inserir.place(x=20, y=300)
     # botão visualizar tabela ---------------------------------------------------------
-    botao_ir_tabela = Button(segundo_frame, command=nova_tela_4, text='Visualizar tabela', width=15, height=1, font=('Arial 10 bold'), bg=co7, fg=co1, relief='raised',
+    botao_ir_tabela = Button(segundo_frame, command=nova_tela_4, text='Visualizar Produtos', width=15, height=1, font=('Arial 10 bold'), bg=co7, fg=co1, relief='raised',
                     overrelief='ridge')
     botao_ir_tabela.place(x=200, y=300)
 
@@ -176,7 +179,7 @@ def nova_tela_3():
 def login_tela_3():
     nome = entre_nome.get()
     senha = entre_senha.get()
-    if nome == 'adm' and senha == 'adm':
+    if nome == 'adm' and senha == '123456':
         messagebox.showinfo('Login', 'Seja bem vindo')
         nova_tela_3()
     else:
