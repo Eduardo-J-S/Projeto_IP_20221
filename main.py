@@ -17,20 +17,21 @@ co7 = '#191970' #MidnightBlue
 
 voltar = False
 
+# -------- tela de login (segunda tela) voltando para primeira tela --------------------------
 def voltar_tela_1():
-    #global voltar
     voltar = True
     segundaTela.destroy()
     if voltar:
         tela_login()
 
+#-------------- tela 4 (visualizar tabela de produtos) voltando para tela 3 -----------------------------------------------
 def voltar_tela_3():
     voltar = True
     quartaTela.destroy()
     if voltar:
-        tela_login()
+        nova_tela_3()
 
-
+#-------------- tela 4 (visualizar tabela de produtos) --------------
 def nova_tela_4():
     global quartaTela
     terceiraTela.destroy()
@@ -80,8 +81,8 @@ def nova_tela_4():
         topo.insert('','end',values=item)
 
     #------------------- criando botao voltar inicio ---------------------------------------------------
-    botao_voltar_tela_3 = Button(tela_4_frame_2, command=voltar_tela_3, text='Início', font=('Arial 12 bold'), width=5, height=1, overrelief='ridge', bg=co0, fg=co1)
-    botao_voltar_tela_3.place(x=385, y=215)
+    botao_voltar_tela_3 = Button(tela_4_frame_2, command=voltar_tela_3, text='Voltar', font=('Arial 12 bold'), width=5, height=1, overrelief='ridge', bg=co0, fg=co1)
+    botao_voltar_tela_3.place(x=393, y=210)
 
     quartaTela.mainloop()
 
@@ -128,7 +129,6 @@ def nova_tela_3():
     global entre_descricao
     global entre_codigo
     global entre_preco
-    segundaTela.destroy()
 
     terceiraTela = Tk()
     terceiraTela.title('Banco de dados')
@@ -180,8 +180,9 @@ def nova_tela_3():
 def login_tela_3():
     nome = entre_nome.get()
     senha = entre_senha.get()
-    if nome == 'adm' and senha == '123456':
+    if nome == 'adm' and senha == '123':
         messagebox.showinfo('Login', 'Seja bem vindo')
+        segundaTela.destroy()
         nova_tela_3()
     else:
         nome_senha_erro['text'] = 'Usuário ou senha incorretos'
