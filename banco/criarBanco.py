@@ -1,30 +1,35 @@
+#-------------------- Criando banco de dados -----------------------------
 def criar_banco():
     import mysql.connector
+    global banco
 
     banco = mysql.connector.connect(
-        host = 'localhost', #A hopedagem do seu MySQL
-        user='root', #O usuario do seu MySQL
-        passwd='', #A senha do seu MySQL (padrao é sem senha)
+        host = 'localhost',
+        user='root',
+        passwd='',
     );
 
     cursor = banco.cursor()
 
     cursor.execute('CREATE DATABASE if not exists banco_produtos')
 
+#-------------------- Criando tabelas -----------------------------
 def criar_tabela():
+
     import mysql.connector
 
     banco = mysql.connector.connect(
-        host = 'localhost', #A hopedagem do seu MySQL
-        user='root', #O usuario do seu MySQL
-        passwd='', #A senha do seu MySQL (padrao é sem senha)
-        database='banco_produtos' # Com que banco de dados a tabela conectar
+        host = 'localhost',
+        user='root',
+        passwd='',
+        database='banco_produtos'
     );
 
     cursor = banco.cursor()
 
     cursor.execute('CREATE TABLE if not exists produtos (id INT NOT NULL AUTO_INCREMENT, produto VARCHAR(50), codigo INT, preco DOUBLE, PRIMARY KEY (id))')
 
+#-------------------- Visualizando informações da tabela -----------------------------
 def visu_info():
     import mysql.connector
     banco = mysql.connector.connect(
@@ -34,7 +39,7 @@ def visu_info():
         database='banco_produtos'
     );
     lista=[]
-            
+        
     cursor = banco.cursor()
     mostrar = 'SELECT * FROM produtos'
     cursor.execute(mostrar)
