@@ -34,7 +34,7 @@ def deletar():
                 database='banco_produtos'
             );
             cursor = banco.cursor()
-            cursor.execute('DELETE FROM produtos WHERE codigo =' +str(deletando))
+            cursor.execute('DELETE FROM produtos WHERE id =' +str(deletando))
 
             tela_deletar.destroy()
 
@@ -44,8 +44,8 @@ def deletar():
     tela_deletar.geometry('270x120+560+355')
     tela_deletar.configure(bg=cor5)
     tela_deletar.resizable(width=FALSE, height=FALSE)
-    label_deletar = Label(tela_deletar, text='Selecione o id do produto a ser deletado', font=('Arial 10 bold'), bg=cor3, fg=cor1)
-    label_deletar.grid(row=0, column=0, pady=3)
+    label_deletar = Label(tela_deletar, text='Digite o id do produto a ser deletado', font=('Arial 10 bold'), bg=cor3, fg=cor1)
+    label_deletar.grid(row=0, column=0, pady=3, padx=15)
     entre_deletar = Entry(tela_deletar, width=10, relief='solid')
     entre_deletar.grid(row=1, column=0, pady=3)
 
@@ -73,15 +73,6 @@ def voltar_tela_3():
     quartaTela.destroy()
     if voltar:
         nova_tela_3()
-
-#botao atualiaar tabela de produtos depois de deletar -------------------------------------------
-def abrir_tela_4():
-    nova_tela_4()
-def atualizar_produtos():
-    voltar = True
-    quartaTela.destroy()
-    if voltar:
-        abrir_tela_4()
 
 
 def nova_tela_4():
@@ -141,7 +132,7 @@ def nova_tela_4():
     botao_deletar = Button(tela_4_frame_2, command= deletar, text='Deletar', font=('Yvi 15'), width=7, height=1, overrelief='ridge', bg=cor3, fg=cor0)
     botao_deletar.place(x=40, y=30)
     #------- botao atualizar pagina ------------------------------------------------------
-    botao_atualizar_pag = Button(tela_4_frame_2, command= atualizar_produtos, text='Atualizar tabela', font=('Yvi 9'), width=14, height=1, overrelief='ridge', bg=cor1, fg=cor0)
+    botao_atualizar_pag = Button(tela_4_frame_2, text='Atualizar tabela', font=('Yvi 9'), width=14, height=1, overrelief='ridge', bg=cor1, fg=cor0)
     botao_atualizar_pag.place(x=40, y=80)
 
     quartaTela.mainloop()
