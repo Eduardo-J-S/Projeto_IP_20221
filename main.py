@@ -68,14 +68,14 @@ def abrir_tela_4():
     if voltar:
         nova_tela_4()
 
-# -------- Seguimento login (segunda tela) voltando para primeira tela --------------------------
+# -------- Segunda tela (Seguimento login) voltando para primeira tela --------------------------
 def voltar_tela_1():
     voltar = True
     segundaTela.destroy()
     if voltar:
         tela_login()
 
-# -------- Seguimento login (terceira tela) voltando para primeira tela --------------------------
+# -------- Terceira tela Seguimento login voltando para primeira tela --------------------------
 def voltar_tela_1_2():
     voltar = True
     terceiraTela.destroy()
