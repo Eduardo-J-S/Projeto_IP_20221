@@ -1,8 +1,9 @@
 from tkinter import *
 from tkinter import messagebox
 import mysql.connector
-from banco import criarBanco
+from pacotes import criarBanco, telaCompras
 from tkinter import ttk
+
 
 # --------------------------------------------- cores --------------------------------------------
 cor0 = '#121010'  # Preta / black
@@ -21,22 +22,23 @@ voltar = False
 def deletar():    
     def ok_del():
         deletando = entre_deletar.get()
+        try:
+            if deletando == '':
+                label_error['text'] = 'Campo precisa ser preenchido'
+            else:
+                messagebox.showinfo('Deletado', 'Produto deletado com sucesso')
+                banco = mysql.connector.connect(
+                    host = 'localhost',
+                    user='root',
+                    passwd='',
+                    database='banco_produtos'
+                );
+                cursor = banco.cursor()
+                cursor.execute('DELETE FROM produtos WHERE id =' +str(deletando))
+                tela_deletar.destroy()
+        except:
+            messagebox.showerror('ERRO', 'Código não existe')
 
-        deletando = entre_deletar.get()
-        if deletando == '':
-            label_error['text'] = 'Campo precisa ser preenchido'
-        else:
-            messagebox.showinfo('Deletado', 'Produto deletado com sucesso')
-            banco = mysql.connector.connect(
-                host = 'localhost',
-                user='root',
-                passwd='',
-                database='banco_produtos'
-            );
-            cursor = banco.cursor()
-            cursor.execute('DELETE FROM produtos WHERE id =' +str(deletando))
-
-            tela_deletar.destroy()
 
 
     tela_deletar = Tk()
@@ -59,11 +61,24 @@ def deletar():
 
     tela_deletar.mainloop()
 
+#------------- botao ir tela 4 ---------------------------------------------------
+def abrir_tela_4():
+    voltar = True
+    terceiraTela.destroy()
+    if voltar:
+        nova_tela_4()
 
-# -------- tela de login (segunda tela) voltando para primeira tela --------------------------
+# -------- Seguimento login (segunda tela) voltando para primeira tela --------------------------
 def voltar_tela_1():
     voltar = True
     segundaTela.destroy()
+    if voltar:
+        tela_login()
+
+# -------- Seguimento login (terceira tela) voltando para primeira tela --------------------------
+def voltar_tela_1_2():
+    voltar = True
+    terceiraTela.destroy()
     if voltar:
         tela_login()
 
@@ -74,11 +89,18 @@ def voltar_tela_3():
     if voltar:
         nova_tela_3()
 
+#botao abrir tela compras -------------------------------------------
+def abrir_tela_compras():
+    voltar=True
+    primeiraTela.destroy()
+    if voltar:
+        telaCompras.first_tela_compras()
+
+
 
 def nova_tela_4():
     global quartaTela
     global topo
-    terceiraTela.destroy()
 
     quartaTela = Tk()
     quartaTela.title('Banco de produtos')
@@ -128,9 +150,11 @@ def nova_tela_4():
     #-------criando botao voltar página anterior ---------------------------------------------------
     botao_voltar_tela_3 = Button(tela_4_frame_2, command=voltar_tela_3, text='Voltar', font=('Arial 12 bold'), width=5, height=1, overrelief='ridge', bg=cor0, fg=cor1)
     botao_voltar_tela_3.place(x=390, y=210)
+
     #-------botão deletar ------------------------------------------------------------------
     botao_deletar = Button(tela_4_frame_2, command= deletar, text='Deletar', font=('Yvi 15'), width=7, height=1, overrelief='ridge', bg=cor3, fg=cor0)
     botao_deletar.place(x=40, y=30)
+
     #------- botao atualizar pagina ------------------------------------------------------
     botao_atualizar_pag = Button(tela_4_frame_2, text='Atualizar tabela', font=('Yvi 9'), width=14, height=1, overrelief='ridge', bg=cor1, fg=cor0)
     botao_atualizar_pag.place(x=40, y=80)
@@ -145,6 +169,7 @@ def inserir():
 
     criarBanco.criar_banco()
     criarBanco.criar_tabela()
+
 
     if produto == '' or codigo == '' or preco =='':
         messagebox.showerror('Erro', 'Campos não estão preenchidos')
@@ -181,6 +206,7 @@ def nova_tela_3():
     global entre_descricao
     global entre_codigo
     global entre_preco
+    global label_codigo
 
     terceiraTela = Tk()
     terceiraTela.title('Banco de dados')
@@ -221,9 +247,13 @@ def nova_tela_3():
                     overrelief='ridge')
     botao_inserir.place(x=20, y=300)
     # botão visualizar tabela ---------------------------------------------------------
-    botao_ir_tabela = Button(segundo_frame, command=nova_tela_4, text='Visualizar Produtos', width=15, height=1, font=('Arial 10 bold'), bg=cor7, fg=cor1, relief='raised',
+    botao_ir_tabela = Button(segundo_frame, command=abrir_tela_4, text='Visualizar Produtos', width=15, height=1, font=('Arial 10 bold'), bg=cor7, fg=cor1, relief='raised',
                     overrelief='ridge')
     botao_ir_tabela.place(x=200, y=300)
+    
+    botao_inicio_t3 = Button(segundo_frame, text='Início', command=voltar_tela_1_2, width=10, height=1, font=('Arial 10 bold'), bg=cor2, fg=cor1, relief='raised',
+                    overrelief='ridge')
+    botao_inicio_t3.place(x=20, y=390)
 
     terceiraTela.mainloop()
 
@@ -258,6 +288,7 @@ def nova_tela_login():
     label_nome.place(x=100, y=160)
     entre_nome = Entry(segundaTela, width=25, justify='left', font=('', 15), highlightthickness=1, relief='solid')
     entre_nome.place(x=100, y=180)
+
 
     label_senha = Label(segundaTela, text='Senha *', font=('Arial 12'), bg=cor1, fg=cor0)
     label_senha.place(x=100, y=250)
@@ -323,7 +354,7 @@ def tela_login():
     label_descricao2.place(x=30, y=190)
 
     #-------------------------------- Criando botao comprar ------------------------------------------------------
-    botao_login = Button(frame_direita, text='Comprar', font=('Arial 12 bold'), width=15, height=1,
+    botao_login = Button(frame_direita, command=abrir_tela_compras, text='Comprar', font=('Arial 12 bold'), width=15, height=1,
                         overrelief='ridge', bg=cor2, fg=cor1)
     botao_login.place(x=30, y=230)
 
