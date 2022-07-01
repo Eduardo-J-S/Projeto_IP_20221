@@ -1,6 +1,8 @@
 from tkinter.ttk import *
 
 from tkinter import *
+
+import pycep_correios
 from pacotes import criarBanco
 
 
@@ -14,7 +16,27 @@ cor5 = '#e9edf5' # sky blue
 cor6 = '#ef5350' #vermelho
 cor7 = '#191970' #MidnightBlue
 
+def cep():
+    entre_cidade_compra.delete(0, 'end')
+    entre_bairro_compra.delete(0, 'end')
+    entre_endereco_compra.delete(0, 'end')
+    entre_uf_compra.delete(0, 'end')
+    cep = entre_cep_compra.get()
+    dados_cep = pycep_correios.get_address_from_cep(cep)
+    entre_cidade_compra.insert('end', dados_cep['cidade'])
+    entre_bairro_compra.insert('end', dados_cep['bairro'])
+    entre_endereco_compra.insert('end', dados_cep['logradouro'])
+    entre_uf_compra.insert('end', dados_cep['uf'])
+
+
+
 def first_tela_compras():
+    global entre_cidade_compra
+    global entre_bairro_compra
+    global entre_endereco_compra
+    global entre_cep_compra
+    global entre_uf_compra
+
 
     #----------------- Criando tela 1 área de compras ---------------------------------------------------
     primeiraTela_compras = Tk()
@@ -23,7 +45,7 @@ def first_tela_compras():
     primeiraTela_compras.configure(bg=cor5)
     primeiraTela_compras.resizable(width=FALSE, height=FALSE)
     
-    #----------------- Criando frame título da página -----------------------------------------------------
+    #----------------- Criando frames da página -----------------------------------------------------
     frame_topo = Frame(primeiraTela_compras, width=500, height=65, bg=cor3, relief='flat')
     frame_topo.grid(row=0, column=0)
     
@@ -46,11 +68,14 @@ def first_tela_compras():
     label_cidade_compra = Label(frame_baixo, text='Cidade ', font=('Arial 10 bold'), bg=cor5, fg=cor4)
     label_cidade_compra.place(x=15, y=200)
 
+    label_uf_compra = Label(frame_baixo, text='UF ', font=('Arial 10 bold'), bg=cor5, fg=cor4)
+    label_uf_compra.place(x=180, y=200)
+
     label_bairro_compra = Label(frame_baixo, text='Bairro ', font=('Arial 10 bold'), bg=cor5, fg=cor4)
     label_bairro_compra.place(x=210, y=150)
 
     label_endereco_compra = Label(frame_baixo, text='Endereço ', font=('Arial 10 bold'), bg=cor5, fg=cor4)
-    label_endereco_compra.place(x=210, y=200)
+    label_endereco_compra.place(x=240, y=200)
 
     label_cpf_compra = Label(frame_baixo, text='CPF ', font=('Arial 10 bold'), bg=cor5, fg=cor4)
     label_cpf_compra.place(x=15, y=250)
@@ -78,14 +103,14 @@ def first_tela_compras():
     entre_telefone_compra = Entry(frame_baixo, width=18, relief='solid')
     entre_telefone_compra.place(x=85, y=151)
 
-    entre_cidade_compra = Entry(frame_baixo, width=20, relief='solid')
+    entre_cidade_compra = Entry(frame_baixo, width=15, relief='solid')
     entre_cidade_compra.place(x=75, y=201)
 
     entre_bairro_compra = Entry(frame_baixo, width=20, relief='solid')
     entre_bairro_compra.place(x=263, y=151)
 
-    entre_endereco_compra = Entry(frame_baixo, width=20, relief='solid')
-    entre_endereco_compra.place(x=283, y=201)
+    entre_endereco_compra = Entry(frame_baixo, width=30, relief='solid')
+    entre_endereco_compra.place(x=311, y=201)
 
     entre_cep_compra = Entry(frame_baixo, width=20, relief='solid')
     entre_cep_compra.place(x=350, y=107)
@@ -93,11 +118,16 @@ def first_tela_compras():
     entre_cpf_compra = Entry(frame_baixo, width=20, relief='solid')
     entre_cpf_compra.place(x=60, y=251)
 
+    entre_uf_compra = Entry(frame_baixo, width=3, relief='solid')
+    entre_uf_compra.place(x=209, y=201)
+
 
     #------------ Criando botão CEP -------------------------------------------------------
-    botao_cep_compra = Button(frame_baixo, text='CEP ', font=('Arial 10 bold'), bg=cor2, fg=cor5, overrelief='ridge', relief='raised')
+    botao_cep_compra = Button(frame_baixo, command=cep, text='CEP ', font=('Arial 10 bold'), bg=cor2, fg=cor5, overrelief='ridge', relief='raised')
     botao_cep_compra.place(x=300, y=100)
+    
+    botao_confirmar_pedido = Button(frame_baixo, text='Confirmar Pedido ', font=('Arial 13 bold'), bg=cor2, fg=cor0, overrelief='ridge', relief='raised', height=1)
+    botao_confirmar_pedido.place(x=15, y=385)
 
 
     primeiraTela_compras.mainloop()
-

@@ -3,6 +3,7 @@ from tkinter import messagebox
 import mysql.connector
 from pacotes import criarBanco, telaCompras
 from tkinter import ttk
+import pycep_correios
 
 
 # --------------------------------------------- cores --------------------------------------------
