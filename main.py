@@ -19,47 +19,30 @@ cor7 = '#191970' #MidnightBlue
 voltar = False
 
 # ------- funçãoo deletar item da tabela ------------------------
-def deletar():    
-    def ok_del():
-        deletando = entre_deletar.get()
-        try:
-            if deletando == '':
-                label_error['text'] = 'Campo precisa ser preenchido'
-            else:
-                messagebox.showinfo('Deletado', 'Produto deletado com sucesso')
-                banco = mysql.connector.connect(
-                    host = 'localhost',
-                    user='root',
-                    passwd='',
-                    database='banco_produtos'
-                );
-                cursor = banco.cursor()
-                cursor.execute('DELETE FROM produtos WHERE id =' +str(deletando))
-                tela_deletar.destroy()
-        except:
-            messagebox.showerror('ERRO', 'Código não existe')
+def deletar():
+    try:
+        dados_topo = topo.focus()
+        dici_topo = topo.item(dados_topo)
+        topo_lista = dici_topo['values']
 
+        posicao_id = topo_lista[0]
 
+        banco = mysql.connector.connect(
+            host = 'localhost',
+            user='root',
+            passwd='',
+            database='banco_produtos'
+        );
+        with banco:
+            cursor = banco.cursor()
+            cursor.execute('DELETE FROM produtos WHERE id =' +str(posicao_id))
 
-    tela_deletar = Tk()
-    tela_deletar.title('Delete Produto')
-    tela_deletar.geometry('270x120+560+355')
-    tela_deletar.configure(bg=cor5)
-    tela_deletar.resizable(width=FALSE, height=FALSE)
-    label_deletar = Label(tela_deletar, text='Digite o id do produto a ser deletado', font=('Arial 10 bold'), bg=cor3, fg=cor1)
-    label_deletar.grid(row=0, column=0, pady=3, padx=15)
-    entre_deletar = Entry(tela_deletar, width=10, relief='solid')
-    entre_deletar.grid(row=1, column=0, pady=3)
-
-
+        quartaTela.destroy()
+        nova_tela_4()
+    except:
+        messagebox.showerror('ERRO', 'Nenhum item selecionado')
     
-    botao_conf_delet = Button(tela_deletar, text='Ok', command=ok_del, width=10, height=1, font=('Arial 10 bold'), bg=cor6, fg=cor1, relief='raised',
-                overrelief='ridge')
-    botao_conf_delet.grid(row=2, column = 0, pady=3)
-    label_error = Label(tela_deletar, text='', font=('Arial 10 bold'), bg=cor5, fg=cor0)
-    label_error.grid(row=3, column=0, pady=1)
 
-    tela_deletar.mainloop()
 
 #------------- botao ir tela 4 ---------------------------------------------------
 def abrir_tela_4():
@@ -155,47 +138,46 @@ def nova_tela_4():
     botao_deletar = Button(tela_4_frame_2, command= deletar, text='Deletar', font=('Yvi 15'), width=7, height=1, overrelief='ridge', bg=cor3, fg=cor0)
     botao_deletar.place(x=40, y=30)
 
-    #------- botao atualizar pagina ------------------------------------------------------
-    botao_atualizar_pag = Button(tela_4_frame_2, text='Atualizar tabela', font=('Yvi 9'), width=14, height=1, overrelief='ridge', bg=cor1, fg=cor0)
-    botao_atualizar_pag.place(x=40, y=80)
-
     quartaTela.mainloop()
 
 
 def inserir():
-    produto = entre_descricao.get()
-    codigo = entre_codigo.get()
-    preco = entre_preco.get()
+    try:
+        produto = entre_descricao.get()
+        codigo = entre_codigo.get()
+        preco = entre_preco.get()
 
-    criarBanco.criar_banco()
-    criarBanco.criar_tabela()
+        criarBanco.criar_banco()
+        criarBanco.criar_tabela()
 
 
-    if produto == '' or codigo == '' or preco =='':
-        messagebox.showerror('Erro', 'Campos não estão preenchidos')
-    else:
-        messagebox.showinfo('Sucesso', 'Produto adicionado com sucesso')
-        banco = mysql.connector.connect(
-        host = 'localhost', #A hopedagem do seu MySQL
-        user='root', #O usuario do seu MySQL
-        passwd='', #A senha do seu MySQL (padrao é sem senha)
-        database='banco_produtos' # Com que banco de dados a tabela conectar
-        )
+        if produto == '' or codigo == '' or preco =='':
+            messagebox.showerror('Erro', 'Campos não estão preenchidos')
+        else:
+            messagebox.showinfo('Sucesso', 'Produto adicionado com sucesso')
+            banco = mysql.connector.connect(
+            host = 'localhost', #A hopedagem do seu MySQL
+            user='root', #O usuario do seu MySQL
+            passwd='', #A senha do seu MySQL (padrao é sem senha)
+            database='banco_produtos' # Com que banco de dados a tabela conectar
+            )
 
-        cursor = banco.cursor()
+            cursor = banco.cursor()
 
-        inserindo = 'INSERT INTO produtos (produto, codigo, preco) VALUES (%s, %s, %s)'
-        dados = (str(produto), str(codigo), str(preco))
-        cursor.execute(inserindo, dados)
-        banco.commit()
+            inserindo = 'INSERT INTO produtos (produto, codigo, preco) VALUES (%s, %s, %s)'
+            dados = (str(produto), str(codigo), str(preco))
+            cursor.execute(inserindo, dados)
+            banco.commit()
 
-        print(f'Produto: {produto}')
-        print(f'Código: {codigo}')
-        print(f'Preço: {preco}')
+            print(f'Produto: {produto}')
+            print(f'Código: {codigo}')
+            print(f'Preço: {preco}')
 
-        entre_descricao.delete(0, 'end')
-        entre_codigo.delete(0, 'end')
-        entre_preco.delete(0, 'end')
+            entre_descricao.delete(0, 'end')
+            entre_codigo.delete(0, 'end')
+            entre_preco.delete(0, 'end')
+    except:
+        messagebox.showerror('ERRO', 'Algum produto digitado de forma errada')
 
 
         
