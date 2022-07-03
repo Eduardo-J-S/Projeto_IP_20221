@@ -37,9 +37,10 @@ def deletar():
         with banco:
             cursor = banco.cursor()
             cursor.execute('DELETE FROM produtos WHERE id =' +str(posicao_id))
-
+        
         quartaTela.destroy()
         nova_tela_4()
+        
     except:
         messagebox.showerror('ERRO', 'Nenhum item selecionado')
     
@@ -155,7 +156,6 @@ def inserir():
         if produto == '' or codigo == '' or preco =='':
             messagebox.showerror('Erro', 'Campos não estão preenchidos')
         else:
-            messagebox.showinfo('Sucesso', 'Produto adicionado com sucesso')
             banco = mysql.connector.connect(
             host = 'localhost', #A hopedagem do seu MySQL
             user='root', #O usuario do seu MySQL
@@ -177,6 +177,7 @@ def inserir():
             entre_descricao.delete(0, 'end')
             entre_codigo.delete(0, 'end')
             entre_preco.delete(0, 'end')
+            messagebox.showinfo('Sucesso', 'Produto adicionado com sucesso')
     except:
         messagebox.showerror('ERRO', 'Algum produto digitado de forma errada')
 
