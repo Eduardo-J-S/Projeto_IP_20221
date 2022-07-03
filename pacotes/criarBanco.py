@@ -47,3 +47,22 @@ def visu_info():
     for i in dados:
         lista.append(i)
     return lista
+
+#------------------- visualizando os produtos da tabela -----------------------------------
+def visu_produto():
+    import mysql.connector
+    banco = mysql.connector.connect(
+        host = 'localhost',
+        user='root',
+        passwd='',
+        database='banco_produtos'
+    );
+    lista2=[]
+    with banco:    
+        cursor = banco.cursor()
+        mostrar = 'SELECT produto FROM produtos'
+        cursor.execute(mostrar)
+        dados = cursor.fetchall()
+        for i in dados:
+            lista2.append(i)
+        return lista2
