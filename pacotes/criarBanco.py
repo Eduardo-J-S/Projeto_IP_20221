@@ -66,3 +66,4 @@ def visu_produto():
         for i in dados:
             lista2.append(i)
         return lista2
+        
