@@ -3,7 +3,6 @@ from tkinter import messagebox
 import mysql.connector
 from pacotes import criarBanco, telaCompras
 from tkinter import ttk
-import pycep_correios
 
 
 # --------------------------------------------- cores --------------------------------------------
@@ -15,9 +14,102 @@ cor4 = '#403d3d'   # letra / letters
 cor5 = '#e9edf5' # sky blue
 cor6 = '#ef5350' #vermelho
 cor7 = '#191970' #MidnightBlue
+cor8 = '#ffff40' #amarelo claro
 
 
 voltar = False
+
+#------------ função para atualizar tabela ------------------------------
+def atualizar():
+    try:
+
+        tela_atualizar = Tk()
+        tela_atualizar.title('Update produto')
+        tela_atualizar.geometry('500x120+420+355')
+        tela_atualizar.configure(bg=cor5)
+        tela_atualizar.resizable(width=FALSE, height=FALSE)
+
+        #------------- labels atualizar --------------------------------------------
+        label_atualizar = Label(tela_atualizar, text='Altere o produto escolhido', font=('Arial 10 bold'), bg=cor3, fg=cor1)
+        label_atualizar.grid(row=0, column=2, pady=3)
+        
+        label_atualizar_id = Label(tela_atualizar, text='ID', font=('Arial 10 bold'), bg=cor3, fg=cor1)
+        label_atualizar_id.place(x=35, y=30)
+
+        label_atualizar_produto = Label(tela_atualizar, text='Produto', font=('Arial 10 bold'), bg=cor3, fg=cor1)
+        label_atualizar_produto.place(x=145, y=30)
+
+        label_atualizar_codigo = Label(tela_atualizar, text='Código', font=('Arial 10 bold'), bg=cor3, fg=cor1)
+        label_atualizar_codigo.place(x=255, y=30)
+
+        label_atualizar_preco = Label(tela_atualizar, text='Preço', font=('Arial 10 bold'), bg=cor3, fg=cor1)
+        label_atualizar_preco.place(x=365, y=30)
+
+
+        #------------------ entradas atualizar ----------------------------------
+        entre_atualizar_id = Entry(tela_atualizar, width=10, relief='solid')
+        entre_atualizar_id.place(x=25, y=55)
+
+        entre_atualizar_produto = Entry(tela_atualizar, width=15, relief='solid')
+        entre_atualizar_produto.place(x=135, y=55)
+
+        entre_atualizar_codigo = Entry(tela_atualizar, width=13, relief='solid')
+        entre_atualizar_codigo.place(x=245, y=55)
+
+        entre_atualizar_preco = Entry(tela_atualizar, width=10, relief='solid')
+        entre_atualizar_preco.place(x=355, y=55) 
+
+        valores_atualizar = []
+
+        dados_select = topo.focus()
+        valor_dados = topo.item(dados_select)
+        dados_valor = valor_dados['values']
+        valores_atualizar.append(dados_valor)
+        id_atualizar = valores_atualizar[0][0]
+        print(id_atualizar)
+        #---------------- inserindo os dados selecionados nas entradas -----------------------------
+        entre_atualizar_id.insert(0, valores_atualizar[0][0])
+        entre_atualizar_produto.insert(0, valores_atualizar[0][1])
+        entre_atualizar_codigo.insert(0, valores_atualizar[0][2])
+        entre_atualizar_preco.insert(0, valores_atualizar[0][3])
+
+
+        def confirmar_atualizar():
+            id_atualiza = str(entre_atualizar_id.get())
+            produto_atualiza = str(entre_atualizar_produto.get())
+            codigo_atualiza = str(entre_atualizar_codigo.get())
+            preco_atualiza = str(entre_atualizar_preco.get())
+
+            banco = mysql.connector.connect(
+                host = 'localhost',
+                user='root',
+                passwd='',
+                database='banco_produtos'
+            );
+            with banco:
+                cursor = banco.cursor()
+                cursor.execute(f'UPDATE produtos SET produto =\"{produto_atualiza}", codigo =\"{codigo_atualiza}", preco =\"{preco_atualiza}" WHERE id ={id_atualiza}')
+
+            messagebox.showinfo('Sucesso', 'Produto atualizado com sucesso')
+            tela_atualizar.destroy()
+            quartaTela.destroy()
+            nova_tela_4()
+
+    
+        botao_conf_atualizar = Button(tela_atualizar, command=confirmar_atualizar, text='Confirmar', width=10, height=1, font=('Arial 10 bold'), bg=cor6, fg=cor1, relief='raised',
+                    overrelief='ridge')
+        botao_conf_atualizar.place(x=150, y=85) 
+
+        tela_atualizar.mainloop()
+        
+    except IndexError:
+        messagebox.showerror('ERRO', 'Selecione um item para editar')
+
+    finally:
+        if IndexError:
+            tela_atualizar.destroy()
+
+
 
 # ------- funçãoo deletar item da tabela ------------------------
 def deletar():
@@ -139,6 +231,10 @@ def nova_tela_4():
     #-------botão deletar ------------------------------------------------------------------
     botao_deletar = Button(tela_4_frame_2, command= deletar, text='Deletar', font=('Yvi 15'), width=7, height=1, overrelief='ridge', bg=cor3, fg=cor0)
     botao_deletar.place(x=40, y=30)
+
+    #-------botão atualizar ------------------------------------------------------------------
+    botao_deletar = Button(tela_4_frame_2, command=atualizar, text='Atualizar', font=('Yvi 15'), width=7, height=1, overrelief='ridge', bg=cor8, fg=cor7)
+    botao_deletar.place(x=170, y=30)
 
     quartaTela.mainloop()
 
