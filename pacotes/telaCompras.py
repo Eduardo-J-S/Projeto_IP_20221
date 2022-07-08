@@ -7,7 +7,6 @@ import datetime
 
 
 
-
 # --------------------------------------------- cores --------------------------------------------
 cor0 = '#121010'  # Preta / black
 cor1 = '#feffff'  # branca / white
@@ -20,75 +19,192 @@ cor7 = '#191970' #MidnightBlue
 cor8 = '#ffff40' #amarelo claro
 
 
+def parcela():
+    global label_cred_parcela
+    total_parcel    
+    lista_parcela = []
+    parcelam = parcelamento.get()
+    lista_parcela.append(parcelam)
+    if lista_parcela == lista_parcela['1']:
+        tot_parc = 1
+    if lista_parcela == lista_parcela['2']:
+        tot_parc = 2
+    
+    tot = preco_quant / tot_parc
+    total_parcel = str(tot)
+    
+    total_parcel = f'parcelas de {tot}'
+
+        
+def se_pag_credito():
+    if entre_cred_numero.get() == '' or entre_cred_cvv.get() == '' or entre_cred_cpf.get() == '' or entre_cred_vencimento.get() == '':
+        messagebox.showerror('ERRO', 'Campos não estão preenchidos')
+    else:
+        if len(entre_cred_cpf.get()) > 11 or len(entre_cred_cpf.get()) < 11:
+            messagebox.showerror('ERRO', 'CPF inválido') 
+        else:
+            for w in frame_topo_t2.winfo_children():
+                w.destroy()
+
+            for w in frame_baixo_t2.winfo_children():
+                w.destroy()
+
+            for w in frame_baixo_total_pagameto.winfo_children():
+                w.destroy()
+
+            for w in frame_baixo_baixo_t2.winfo_children():
+                w.destroy()
+
+            
+
+            listra = '----------------------------------------------------------------------------------'
+            #------------------- label topo ----------------------------------------------------------
+            label_top_comprovante_cred = Label(frame_topo_t2, text='Comprovante de compra', font=('Arialblack 20 bold'), bg=cor3, fg=cor1)
+            label_top_comprovante_cred.grid(row=0, column=0, padx=100, pady=10)
+
+            #---------------- frame credito comprovante --------------------------------------------------
+            frame_cred = Frame(frame_baixo_t2, width=450, height=270, bg=cor8, relief='flat')
+            frame_cred.place(x=20, y=58)
+
+            #------------------ labels frame credito ------------------------------------------------
+            label_cred_lista_cima = Label(frame_cred, text=listra, font=('Arialblack 12 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_lista_cima.place(x=10, y=2)
+
+            label_cred_confe = Label(frame_cred, text='CONFERENCIA DE COMPRA', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_confe.place(x=120, y=19)
+        
+            label_cred_lista_baixo = Label(frame_cred, text=listra, font=('Arialblack 12 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_lista_baixo.place(x=10, y=35)
+
+            label_cred_nome = Label(frame_cred, text='Nome:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_nome.place(x=15, y=60)
+            
+            label_cred_nom = Label(frame_cred, text=nome_var, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_nom.place(x=61, y=60)
+
+            label_cred_cpf = Label(frame_cred, text='CPF:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_cpf.place(x=15, y=80)
+
+            label_cred_CPF = Label(frame_cred, text=cpf_var, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_CPF.place(x=50, y=80)
+
+            label_cred_produt = Label(frame_cred, text='Produto:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_produt.place(x=15, y=100)
+            
+
+
+
+
+            label_cred_produto = Label(frame_cred, text=produto_select, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_produto.place(x=75, y=100)
+
+            label_cred_parcelas = Label(frame_cred, text='Parcelas de:',   font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_parcelas.place(x=15, y=120)
+
+            global label_cred_parcela
+            label_cred_parcelas = Label(frame_cred, text='', command=parcela, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_parcelas.place(x=95, y=120)
+
+            label_cred_total = Label(frame_cred, text='Total:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_total.place(x=15, y=140)
+
+            label_cred_tot = Label(frame_cred, text=preco_quant, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_tot.place(x=53, y=140)
+
+            label_cred_datahora = Label(frame_cred, text='Data e hora:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_datahora.place(x=15, y=160)
+
+            label_cred_dataHora = Label(frame_cred, text=datetime.datetime.now(), font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_dataHora.place(x=95, y=160)
+
+
+            label_deb_lista_final = Label(frame_cred, text=listra, font=('Arialblack 12 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_deb_lista_final.place(x=10, y=180)
+
+            #----------------------- botao voltar -------------------------------------------------------------------------------------------
+            botao_voltar_cred = Button(frame_baixo_total_pagameto, text='Voltar', command=cancelar_compra, font=('Arial 12'), bg=cor2, fg=cor0, overrelief='ridge', relief='raised', height=1, width=9)
+            botao_voltar_cred.place(x=320, y=10)
+
+
+
+
+
+
 def se_pag_debito():
-    for w in frame_topo_t2.winfo_children():
-            w.destroy()
+    if entre_deb_numero.get() == '' or entre_deb_cpf.get() == '' or entre_deb_vencimento.get() == '':
+        messagebox.showerror('ERRO', 'Campos não estão preenchidos')
+    else:
+        for w in frame_topo_t2.winfo_children():
+                w.destroy()
 
-    for w in frame_baixo_t2.winfo_children():
-            w.destroy()
+        for w in frame_baixo_t2.winfo_children():
+                w.destroy()
 
-    for w in frame_baixo_total_pagameto.winfo_children():
-            w.destroy()
+        for w in frame_baixo_total_pagameto.winfo_children():
+                w.destroy()
 
-    for w in frame_baixo_baixo_t2.winfo_children():
-            w.destroy()
-    
-    listra = '----------------------------------------------------------------------------------'
+        for w in frame_baixo_baixo_t2.winfo_children():
+                w.destroy()
+        global listra
+        listra = '----------------------------------------------------------------------------------'
 
-    #------------------- label topo ----------------------------------------------------------
-    label_top_comprovante_deb = Label(frame_topo_t2, text='Comprovante de compra', font=('Arialblack 20 bold'), bg=cor3, fg=cor1)
-    label_top_comprovante_deb.grid(row=0, column=0, padx=100, pady=10)
+        #------------------- label topo ----------------------------------------------------------
+        label_top_comprovante_deb = Label(frame_topo_t2, text='Comprovante de compra', font=('Arialblack 20 bold'), bg=cor3, fg=cor1)
+        label_top_comprovante_deb.grid(row=0, column=0, padx=100, pady=10)
 
-    #---------------- frame pix comprovante --------------------------------------------------
-    frame_deb = Frame(frame_baixo_t2, width=450, height=260, bg=cor8, relief='flat')
-    frame_deb.place(x=20, y=58)
+        #---------------- frame debito comprovante --------------------------------------------------
+        frame_deb = Frame(frame_baixo_t2, width=450, height=260, bg=cor8, relief='flat')
+        frame_deb.place(x=20, y=58)
+
+        #------------------ labels frame debcred ------------------------------------------------
+        label_deb_lista_cima = Label(frame_deb, text=listra, font=('Arialblack 12 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_lista_cima.place(x=10, y=2)
+
+        label_deb_confe = Label(frame_deb, text='CONFERENCIA DE COMPRA', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_confe.place(x=120, y=19)
+
+        label_deb_lista_baixo = Label(frame_deb, text=listra, font=('Arialblack 12 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_lista_baixo.place(x=10, y=35)
+
+        label_deb_produt = Label(frame_deb, text='Nome:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_produt.place(x=15, y=60)
+        
+        label_ded_produto = Label(frame_deb, text=nome_var, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_ded_produto.place(x=61, y=60)
+
+        label_deb_valor = Label(frame_deb, text='CPF:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_valor.place(x=15, y=80)
+
+        label_deb_val = Label(frame_deb, text=cpf_var, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_val.place(x=50, y=80)
+
+        label_deb_datahora = Label(frame_deb, text='Produto:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_datahora.place(x=15, y=100)
+
+        label_deb_dataHora = Label(frame_deb, text=produto_select, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_dataHora.place(x=75, y=100)
+
+        label_deb_nome = Label(frame_deb, text='Total:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_nome.place(x=15, y=120)
+
+        label_deb_Nome = Label(frame_deb, text=preco_quant, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_Nome.place(x=53, y=120)
+
+        label_deb_cpf = Label(frame_deb, text='Data e hora:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_cpf.place(x=15, y=140)
+
+        label_deb_CPF = Label(frame_deb, text=datetime.datetime.now(), font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_CPF.place(x=95, y=140)
+
+        label_deb_lista_final = Label(frame_deb, text=listra, font=('Arialblack 12 bold'), bg=cor8, fg=cor0, relief='flat')
+        label_deb_lista_final.place(x=10, y=170)
+
+        #----------------------- botao voltar -------------------------------------------------------------------------------------------
+        botao_voltar_deb = Button(frame_baixo_total_pagameto, text='Voltar', command=cancelar_compra, font=('Arial 12'), bg=cor2, fg=cor0, overrelief='ridge', relief='raised', height=1, width=9)
+        botao_voltar_deb.place(x=320, y=10)
 
 
-    label_deb_lista_cima = Label(frame_deb, text=listra, font=('Arialblack 12 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_lista_cima.place(x=10, y=2)
 
-    label_deb_confe = Label(frame_deb, text='CONFERENCIA DE COMPRA', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_confe.place(x=120, y=19)
-   
-    label_deb_lista_baixo = Label(frame_deb, text=listra, font=('Arialblack 12 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_lista_baixo.place(x=10, y=35)
-
-    label_deb_produt = Label(frame_deb, text='Nome:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_produt.place(x=15, y=60)
-    
-    label_ded_produto = Label(frame_deb, text=nome_var, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_ded_produto.place(x=61, y=60)
-
-    label_deb_valor = Label(frame_deb, text='CPF:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_valor.place(x=15, y=80)
-
-    label_deb_val = Label(frame_deb, text=cpf_var, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_val.place(x=50, y=80)
-
-    label_deb_datahora = Label(frame_deb, text='Produto:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_datahora.place(x=15, y=100)
-
-    label_deb_dataHora = Label(frame_deb, text=produto_select, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_dataHora.place(x=75, y=100)
-
-    label_deb_nome = Label(frame_deb, text='Total:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_nome.place(x=15, y=120)
-
-    label_deb_Nome = Label(frame_deb, text=preco_quant, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_Nome.place(x=53, y=120)
-
-    label_deb_cpf = Label(frame_deb, text='Data e hora:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_cpf.place(x=15, y=140)
-
-    label_deb_CPF = Label(frame_deb, text=datetime.datetime.now(), font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_CPF.place(x=95, y=140)
-
-    label_deb_lista_final = Label(frame_deb, text=listra, font=('Arialblack 12 bold'), bg=cor8, fg=cor0, relief='flat')
-    label_deb_lista_final.place(x=10, y=170)
-
-    #----------------------- botao voltar -------------------------------------------------------------------------------------------
-    botao_voltar_pix = Button(frame_baixo_total_pagameto, text='Voltar', command=cancelar_compra, font=('Arial 12'), bg=cor2, fg=cor0, overrelief='ridge', relief='raised', height=1, width=9)
-    botao_voltar_pix.place(x=320, y=10)
 
 
 def se_pag_pix():
@@ -136,8 +252,6 @@ def se_pag_pix():
     botao_voltar_pix.place(x=320, y=10)
 
 
-
-
 def cancelar_compra():
     segundaTela_compras.destroy()
     first_tela_compras()
@@ -166,6 +280,11 @@ def selecionar():
         label_cred_vencimento.place(x=15, y=65)
 
         #------------------------- criando as entradas do cartao de credito ----------------------------------------------
+        global entre_cred_numero 
+        global entre_cred_cvv
+        global entre_cred_cpf
+        global entre_cred_vencimento
+
         entre_cred_numero = Entry(frame_baixo_baixo_t2, width=20, relief='solid')
         entre_cred_numero.place(x=157, y=7)
 
@@ -179,13 +298,14 @@ def selecionar():
         entre_cred_vencimento.place(x=184, y=68)
 
         #--------------------- criando combobox do cartao de credito ---------------------------------------------
-        parecelamento = Combobox(frame_baixo_baixo_t2, width=15)
-        parecelamento['values'] = ('1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x', '11x', '12x')
-        parecelamento.current(0)
-        parecelamento.place(x=15, y=95)
+        global parcelamento
+        parcelamento = Combobox(frame_baixo_baixo_t2, width=15)
+        parcelamento['values'] = ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12')
+        parcelamento.current(0)
+        parcelamento.place(x=15, y=95)
 
         #-------------------- criando botao confirmar comprar -------------------------------------------------------
-        botao_selcionar_opc = Button(frame_baixo_baixo_t2, text='Confirmar compra ', font=('Arial 13 bold'), bg=cor2, fg=cor0, overrelief='ridge', relief='raised', height=1, width=15)
+        botao_selcionar_opc = Button(frame_baixo_baixo_t2, command=se_pag_credito + parcela, text='Confirmar compra ', font=('Arial 13 bold'), bg=cor2, fg=cor0, overrelief='ridge', relief='raised', height=1, width=15)
         botao_selcionar_opc.place(x=320, y=95)
 
 
@@ -207,6 +327,7 @@ def selecionar():
         #------------------ criando entradas para o cartao de debito --------------------------------
         global entre_deb_numero
         global entre_deb_cpf
+        global entre_deb_vencimento
 
         entre_deb_numero = Entry(frame_baixo_baixo_t2, width=20, relief='solid')
         entre_deb_numero.place(x=157, y=7)
@@ -249,40 +370,44 @@ def confirmar():
 
     try:
 
-        nome_var = entre_nome_compra.get()
-        cpf_var = entre_cpf_compra.get()
-        endereco_var = entre_endereco_compra.get()
-        bairro_var = entre_bairro_compra.get()
-        cidade_var = entre_cidade_compra.get()
-        uf_var = entre_uf_compra.get()
-        telefone_var = entre_telefone_compra.get()
+        nome_var = entre_nome_compra.get().strip()
+        cpf_var = entre_cpf_compra.get().strip()
+        endereco_var = entre_endereco_compra.get().strip()
+        bairro_var = entre_bairro_compra.get().strip()
+        cidade_var = entre_cidade_compra.get().strip()
+        uf_var = entre_uf_compra.get().strip()
+        telefone_var = entre_telefone_compra.get().strip()
 
 
         quantidade = spin_qnt.get()
         print(quantidade)
         produto_select = comprar.get()
         print(produto_select)
-
+        
+         
         if nome_var == '' or cpf_var == '' or endereco_var == '' or bairro_var == '' or cidade_var == '' or uf_var == '' or telefone_var == '':
             messagebox.showerror('ERRO', 'Campos não estão preenchidos') 
-
         else:
+            if len(cpf_var) > 11 or len(cpf_var) < 11:
+                messagebox.showerror('ERRO', 'CPF inválido') 
 
-            lista_produtos = criarBanco.visu_info()
-            produto = []
+            else:
 
-            for linha in lista_produtos:
-                if produto_select in linha:
-                    produto.append(linha)
-            print(produto)
-            preco_quant = int(produto[0][3]) * int(quantidade)
-            print(f'{int(produto[0][3]) * int(quantidade)}')
+                lista_produtos = criarBanco.visu_info()
+                produto = []
 
-            primeiraTela_compras.destroy()
-            second_tela_compras()
+                for linha in lista_produtos:
+                    if produto_select in linha:
+                        produto.append(linha)
+                print(produto)
+                preco_quant = int(produto[0][3]) * int(quantidade)
+                print(f'{int(produto[0][3]) * int(quantidade)}')
+
+                primeiraTela_compras.destroy()
+                second_tela_compras()
 
     except:
-        messagebox.showerror('ERRO', 'Algum campo com erro!')    
+        messagebox.showerror('ERRO', 'Algum campo não foi preenchido corretamente!')    
 
 
 def cep():
@@ -379,6 +504,7 @@ def first_tela_compras():
     #---------------- Criando entradas -------------------------------------------------------------------
     entre_nome_compra = Entry(frame_baixo, width=35, relief='solid')
     entre_nome_compra.place(x=65, y=101)
+
 
     entre_telefone_compra = Entry(frame_baixo, width=18, relief='solid')
     entre_telefone_compra.place(x=85, y=151)
