@@ -4,6 +4,7 @@ from tkinter import messagebox
 import pycep_correios
 from pacotes import criarBanco
 import datetime
+from tkcalendar import Calendar, DateEntry
 
 
 
@@ -18,22 +19,6 @@ cor6 = '#ef5350' #vermelho
 cor7 = '#191970' #MidnightBlue
 cor8 = '#ffff40' #amarelo claro
 
-
-def parcela():
-    global label_cred_parcela
-    total_parcel    
-    lista_parcela = []
-    parcelam = parcelamento.get()
-    lista_parcela.append(parcelam)
-    if lista_parcela == lista_parcela['1']:
-        tot_parc = 1
-    if lista_parcela == lista_parcela['2']:
-        tot_parc = 2
-    
-    tot = preco_quant / tot_parc
-    total_parcel = str(tot)
-    
-    total_parcel = f'parcelas de {tot}'
 
         
 def se_pag_credito():
@@ -54,8 +39,6 @@ def se_pag_credito():
 
             for w in frame_baixo_baixo_t2.winfo_children():
                 w.destroy()
-
-            
 
             listra = '----------------------------------------------------------------------------------'
             #------------------- label topo ----------------------------------------------------------
@@ -102,8 +85,8 @@ def se_pag_credito():
             label_cred_parcelas.place(x=15, y=120)
 
             global label_cred_parcela
-            label_cred_parcelas = Label(frame_cred, text='', command=parcela, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
-            label_cred_parcelas.place(x=95, y=120)
+            label_cred_parcelas = Label(frame_cred, text=parc, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
+            label_cred_parcelas.place(x=100, y=120)
 
             label_cred_total = Label(frame_cred, text='Total:', font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
             label_cred_total.place(x=15, y=140)
@@ -279,6 +262,9 @@ def selecionar():
         label_cred_vencimento = Label(frame_baixo_baixo_t2, text='Vencimento do cartão: ', font=('Arialblack 11 bold'), bg=cor1, fg=cor0)
         label_cred_vencimento.place(x=15, y=65)
 
+        label_cred_parcela = Label(frame_baixo_baixo_t2, text='Parcelas de: ', font=('Arialblack 11 bold'), bg=cor1, fg=cor0)
+        label_cred_parcela.place(x=15, y=95)        
+
         #------------------------- criando as entradas do cartao de credito ----------------------------------------------
         global entre_cred_numero 
         global entre_cred_cvv
@@ -294,18 +280,24 @@ def selecionar():
         entre_cred_cpf = Entry(frame_baixo_baixo_t2, width=15, relief='solid')
         entre_cred_cpf.place(x=292, y=38)
 
-        entre_cred_vencimento = Entry(frame_baixo_baixo_t2, width=15, relief='solid')
+        entre_cred_vencimento = DateEntry(frame_baixo_baixo_t2, background= 'darkblue', fg=cor2 ,width=15)
         entre_cred_vencimento.place(x=184, y=68)
 
         #--------------------- criando combobox do cartao de credito ---------------------------------------------
-        global parcelamento
-        parcelamento = Combobox(frame_baixo_baixo_t2, width=15)
-        parcelamento['values'] = ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12')
-        parcelamento.current(0)
-        parcelamento.place(x=15, y=95)
+        global spin_parcelamento
+        global qnt_parcelas
+        global parc
+        spin_parcelamento = Spinbox(frame_baixo_baixo_t2, from_= 1, to=12, width=10)
+        spin_parcelamento.place(x=115, y=100)
+
+        parcelas = int(spin_parcelamento.get())
+        qnt_parcelas = (preco_quant / parcelas)
+        parc = (f'{parcelas}X de {qnt_parcelas}')
+        str(qnt_parcelas)
+    
 
         #-------------------- criando botao confirmar comprar -------------------------------------------------------
-        botao_selcionar_opc = Button(frame_baixo_baixo_t2, command=se_pag_credito + parcela, text='Confirmar compra ', font=('Arial 13 bold'), bg=cor2, fg=cor0, overrelief='ridge', relief='raised', height=1, width=15)
+        botao_selcionar_opc = Button(frame_baixo_baixo_t2, command=se_pag_credito, text='Confirmar compra ', font=('Arial 13 bold'), bg=cor2, fg=cor0, overrelief='ridge', relief='raised', height=1, width=15)
         botao_selcionar_opc.place(x=320, y=95)
 
 
@@ -335,7 +327,7 @@ def selecionar():
         entre_deb_cpf = Entry(frame_baixo_baixo_t2, width=15, relief='solid')
         entre_deb_cpf.place(x=108, y=38)
 
-        entre_deb_vencimento = Entry(frame_baixo_baixo_t2, width=15, relief='solid')
+        entre_deb_vencimento = DateEntry(frame_baixo_baixo_t2, width=15, background= 'darkblue', fg=cor2) 
         entre_deb_vencimento.place(x=184, y=68)
 
         #-------------------- criando botao confirmar comprar -------------------------------------------------------
