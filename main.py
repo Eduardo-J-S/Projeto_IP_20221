@@ -106,8 +106,7 @@ def atualizar():
         messagebox.showerror('ERRO', 'Selecione um item para editar')
 
     finally:
-        if IndexError:
-            tela_atualizar.destroy()
+        tela_atualizar.destroy()
 
 
 
