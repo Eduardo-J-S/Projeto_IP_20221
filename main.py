@@ -6,14 +6,14 @@ from tkinter import ttk
 
 
 # --------------------------------------------- cores --------------------------------------------
-cor0 = '#121010'  # Preta / black
-cor1 = '#feffff'  # branca / white
-cor2 = '#3fb5a3'  # verde / green
-cor3 = '#38576b'  # valor / value
-cor4 = '#403d3d'   # letra / letters
-cor5 = '#e9edf5' # sky blue
+cor0 = '#121010'  # Preto
+cor1 = '#feffff'  # branco
+cor2 = '#3fb5a3'  # verde
+cor3 = '#38576b'  # azul
+cor4 = '#403d3d'  # cinza
+cor5 = '#e9edf5' # azul claro
 cor6 = '#ef5350' #vermelho
-cor7 = '#191970' #MidnightBlue
+cor7 = '#191970' #azul escuro
 cor8 = '#ffff40' #amarelo claro
 
 
@@ -202,10 +202,8 @@ def nova_tela_4():
     rolagem_vert = ttk.Scrollbar(tela_4_frame, orient='vertical', command=topo.yview)
     rolagem_vert.grid(column=1, row=0, sticky='ns')
 
-    rolagem_hori = ttk.Scrollbar(tela_4_frame, orient='horizontal', command=topo.yview)
-    rolagem_hori.grid(column=0, row=1, sticky='ew')
 
-    topo.configure(yscrollcommand=rolagem_vert.set, xscrollcommand=rolagem_hori.set)
+    topo.configure(yscrollcommand=rolagem_vert.set)
     topo.grid(column=0, row=0)
 
     tela_4_frame.grid_rowconfigure(0, weight=12)
