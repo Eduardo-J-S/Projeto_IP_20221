@@ -9,19 +9,24 @@ from tkcalendar import Calendar, DateEntry
 
 
 # --------------------------------------------- cores --------------------------------------------
-cor0 = '#121010'  # Preta / black
-cor1 = '#feffff'  # branca / white
-cor2 = '#3fb5a3'  # verde / green
-cor3 = '#38576b'  # valor / value
-cor4 = '#403d3d'   # letra / letters
-cor5 = '#e9edf5' # sky blue
+cor0 = '#121010'  # Preto
+cor1 = '#feffff'  # branco
+cor2 = '#3fb5a3'  # verde
+cor3 = '#38576b'  # azul
+cor4 = '#403d3d'  # cinza
+cor5 = '#e9edf5' # azul claro
 cor6 = '#ef5350' #vermelho
-cor7 = '#191970' #MidnightBlue
+cor7 = '#191970' #azul escuro
 cor8 = '#ffff40' #amarelo claro
 
-
+parc = 1
         
 def se_pag_credito():
+    parcelas = int(spin_parcelamento.get())
+    qnt_parcelas = (preco_quant / parcelas)
+    parc = (f'{parcelas}X de {qnt_parcelas:.2f}')
+    str(qnt_parcelas)
+
     if entre_cred_numero.get() == '' or entre_cred_cvv.get() == '' or entre_cred_cpf.get() == '' or entre_cred_vencimento.get() == '':
         messagebox.showerror('ERRO', 'Campos não estão preenchidos')
     else:
@@ -85,6 +90,7 @@ def se_pag_credito():
             label_cred_parcelas.place(x=15, y=120)
 
             global label_cred_parcela
+
             label_cred_parcelas = Label(frame_cred, text=parc, font=('Arialblack 10 bold'), bg=cor8, fg=cor0, relief='flat')
             label_cred_parcelas.place(x=100, y=120)
 
@@ -290,10 +296,7 @@ def selecionar():
         spin_parcelamento = Spinbox(frame_baixo_baixo_t2, from_= 1, to=12, width=10)
         spin_parcelamento.place(x=115, y=100)
 
-        parcelas = int(spin_parcelamento.get())
-        qnt_parcelas = (preco_quant / parcelas)
-        parc = (f'{parcelas}X de {qnt_parcelas}')
-        str(qnt_parcelas)
+
     
 
         #-------------------- criando botao confirmar comprar -------------------------------------------------------
@@ -362,11 +365,11 @@ def confirmar():
 
     try:
 
-        nome_var = entre_nome_compra.get().strip()
+        nome_var = entre_nome_compra.get().strip().upper()
         cpf_var = entre_cpf_compra.get().strip()
-        endereco_var = entre_endereco_compra.get().strip()
-        bairro_var = entre_bairro_compra.get().strip()
-        cidade_var = entre_cidade_compra.get().strip()
+        endereco_var = entre_endereco_compra.get().strip().upper()
+        bairro_var = entre_bairro_compra.get().strip().upper()
+        cidade_var = entre_cidade_compra.get().strip().upper()
         uf_var = entre_uf_compra.get().strip()
         telefone_var = entre_telefone_compra.get().strip()
 
