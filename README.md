@@ -1,2 +1,2 @@
-# Projeto_IP_20221
+# Protótipo Loja Vendas
 Projeto da cadeira de Introdução a Programação. 
